@@ -35,6 +35,8 @@ const Navbar = () => {
     return store.cartReducer;
   });
   const navigate = useNavigate();
+
+  
   async function checkAdmin(){
     let checkAdminLoginResult= await adminProduct.adminCheckLogin(localStorage.getItem("loginToken1"));
     console.log("checkAdminLoginResult",checkAdminLoginResult);

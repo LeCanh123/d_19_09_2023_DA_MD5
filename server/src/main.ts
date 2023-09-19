@@ -6,12 +6,15 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as express from 'express';
 import * as path from 'path';
 import * as expressEjsLayouts from 'express-ejs-layouts';
+import { json, urlencoded } from 'express';
+import bodyParser from 'body-parser';
+import * as multer from 'multer';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule,{cors:true});
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: ["1","2"]
+    defaultVersion: ["1"]
   });
   app.setGlobalPrefix('api');
  
@@ -31,6 +34,23 @@ async function bootstrap() {
     }   
   ));
 
+  //ulend code
+  app.use(json());
+  app.use(urlencoded({ extended: true }));
+
+  
+
+//body parser
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+//multer
+  // Cấu hình multer middleware
+  const upload = multer({ dest: 'uploads/' });
+  app.use(upload.any());
+
+
+  //ejs
   app.useStaticAssets(path.join(__dirname, '..', 'public')); // (optional) Specify a public directory for static assets
   app.setBaseViewsDir(path.join(__dirname, '..', 'views')); // Specify the directory where your views are located
   app.set('view engine', 'ejs');

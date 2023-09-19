@@ -19,10 +19,6 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
   
-
-
-
-
   async create(createUserDto: CreateUserDto) {
   //   {
   //     "username": "string1",
@@ -168,10 +164,9 @@ export class UsersService {
       }
     
   
-    }
+  }
 
-
-async checktoken( tokenUserDto:TokenUserDto){
+  async checktoken( tokenUserDto:TokenUserDto){
   try{
     let unpack:any= jwt.verifyToken(tokenUserDto.token);
     console.log("unpack,unpack",unpack);
@@ -188,7 +183,7 @@ async checktoken( tokenUserDto:TokenUserDto){
     
 
   }
-}
+  }
 
 
 

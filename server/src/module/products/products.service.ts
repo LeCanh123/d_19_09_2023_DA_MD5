@@ -9,6 +9,9 @@ import {  Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { QueryFailedError } from 'typeorm';
+import { CreateAdminCheckLoginDto } from './dto/admin-checklogin.dto';
+import jwt from 'src/services/jwt';
+import { ProductImage } from '../productimages/entities/productimage.entity';
 
 
 @Injectable()
@@ -17,43 +20,52 @@ export class ProductsService {
   constructor(
     @Inject('PRODUCT_REPOSITORY')
     private productRepository: Repository<Product>,
+    @Inject('PRODUCT_REPOSITORY')
+    private productImageRepository: Repository<ProductImage>,
+
   ) {}
 
   
   async create(createProductDto: CreateProductDto){
-    try{
-      const newProduct = await this.productRepository.save(createProductDto);
+    try {
+      //dữ liệu mẫu
+    
+      let data1:any={
+        title:createProductDto.title,
+        price:createProductDto.price,
+        actualprice:createProductDto.actualprice,
+        category:createProductDto.categoryId,
+        block:"null"
+      }
 
-      console.log("newProductnewProductnewProduct",newProduct);
+    
+      const categorys=await this.productRepository.save(data1);
+console.log("categorys",categorys);
+
+
+      let data2:any={
+        image:String(createProductDto.image),
+        img1:String(createProductDto.img1),
+        img2:String(createProductDto.img2),
+        img3:String(createProductDto.img3),
+        img4:String(createProductDto.img4),
+        products:categorys.id
+      }
+   console.log("data2",data2);
+   
+      // const images=await this.productImageRepository.save(data2);
+      return  {
+        status: true,
+        messsage: "Add Product success !",
+        // data: users
+              }
+
       
-      return {
-        status:true,
-        message:"Tạo Product Thành công"
-      }
-    }
-    catch(error){
-      console.log("newProductnewProductnewProduct",error);
-      if (error instanceof QueryFailedError) {
-        // Xử lý lỗi QueryFailedError
-        console.error('Query failed:', error.message);
-        if(error.message.toString().includes("foreign key")||error.message.toString().includes("Data too long")){{
-          return {
-            status:false,
-            message:"Category Id không đúng"
-          }
-        }}else{
-          return {
-            status:false,
-            message:"Tạo Product Thất bại"
-          }
-        }
-    } else {
-      return {
-        status:false,
-        message:"Tạo Product Thất bại"
-      }
-    }
-     
+    } catch (error) {
+      return  {
+        status: false,
+        messsage: "Error Add Product !",
+              }
     }
   }
 
@@ -117,4 +129,40 @@ export class ProductsService {
   remove(id: number) {
     return `This action removes a #${id} product`;
   }
+
+  //admin
+  adminCheckToken(createAdminCheckLoginDto: CreateAdminCheckLoginDto){
+    try{
+      let unpack:any= jwt.verifyToken(createAdminCheckLoginDto.token);
+      console.log("unpack",unpack);
+      
+      if(unpack.username=="admin"){
+       
+        //enter code below this line
+        console.log("Bạn Là Admin");
+        return {
+          status:true,
+          message:"Bạn Là Admin"
+        }
+
+      }else{
+        console.log("Bạn Không Phải Là Admin");
+        return {
+          status:false,
+          message:"Bạn Không Phải Là Admin"
+        }
+      }
+    }
+    catch(err){
+    console.log("Lỗi Hệ Thống");
+    return {
+      status:false,
+      message:"Lỗi hệ thống"
+    }
+    
+    }
+  }
+
+  
 }
+

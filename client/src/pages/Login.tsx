@@ -195,7 +195,5 @@ const navigate = useNavigate();
     </Flex>
   );
 }
-function toast(arg0: { title: any; status: string; duration: number; position: string; isClosable: boolean; }) {
-  throw new Error("Function not implemented.");
-}
+
 

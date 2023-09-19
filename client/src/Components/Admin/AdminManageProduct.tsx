@@ -42,7 +42,7 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
       //useeffect getcategory
       useEffect(() => {
           async function getCategory1(){
-          let listCategory1:any= await apiAdminProduct.getCategory(localStorage.getItem("loginToken1"));
+          let listCategory1:any= await apiAdminProduct.getCategory(String(localStorage.getItem("loginToken1")));
           
             if(listCategory1.status==true){
               setListCategory(listCategory1.data)
@@ -55,7 +55,7 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
       let [listdeleteCategory,setdeleteListCategory]=useState([{sex:"Chưa có Danh Mục",id:-1,name:"Chưa có Danh Mục"}]);
       useEffect(() => {
         async function getCategory2(){
-          let listCategory1:any= await apiAdminProduct.getCategory(localStorage.getItem("loginToken1"));
+          let listCategory1:any= await apiAdminProduct.getCategory(String(localStorage.getItem("loginToken1")));
             if(listCategory1.data?.status){
           setdeleteListCategory(listCategory1.data.data)
             }
@@ -64,7 +64,10 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
       }, [reloadCategory]);
 
       //useeffect product getcategory
-      const [selectedSex, setSelectedSex] = useState('none');             
+      const [selectedSex, setSelectedSex] = useState('none');    
+      
+      
+      
       const handleChangeGender = (event:any) => {                       
         setSelectedSex(event.target.value);};
       useEffect(() => {
@@ -174,12 +177,15 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
       const sex:any = (document.getElementById('categoryType1')as HTMLInputElement).value;
       const name:any = (document.getElementById('categoryName1')as HTMLInputElement).value;
       setIsLoading(true)
-      let addCategoryResult:any=await apiAdminProduct.addCategory(localStorage.getItem("loginToken1"),{name,sex});
+      let addCategoryResult:any=await apiAdminProduct.addCategory(String(localStorage.getItem("loginToken1")),{name,sex});
+      console.log("addCategoryResult",addCategoryResult);
+
+
       if(addCategoryResult.data?.status){
         setReloadCategory(Math.random()*1000);
         toast({
           title: "Success",
-          description: addCategoryResult.data.message,
+          description: addCategoryResult.data?.message,
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -189,7 +195,7 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
       }else{
         toast({
           title: "Err",
-          description: addCategoryResult.data.message,
+          description: addCategoryResult.data?.message,
           status: "error",
           duration: 2000,
           isClosable: true,

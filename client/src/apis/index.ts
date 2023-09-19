@@ -1,8 +1,21 @@
 import axios from 'axios';
 
+interface newUserSignup{
+  email:string,
+  username:string,
+  firstname:string,
+  lastname:string,
+  password:string,
+}
+interface newUserLogin{
+  username:string,
+  password:string
+}
+
+
+
 export default {
-    SignupRequest:(newUser:any)=> {
-        console.log("newUser",newUser);
+    SignupRequest:(newUser:newUserSignup)=> {
         return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/users`,newUser)
           .then(res => {
             console.log(res);
@@ -32,10 +45,7 @@ export default {
             }
             );
       },
-    LoginRequest:(newUser: any)=> {
-        console.log("newUser",newUser);
-        console.log("import.meta.env.REACT_APP_SERVER_HOST",import.meta.env.VITE_SERVER_HOST);
-        
+    LoginRequest:(newUser: newUserLogin)=> {
         return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/users/login`,newUser)
           .then(res => {
             console.log(res);

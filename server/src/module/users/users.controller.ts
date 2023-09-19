@@ -4,7 +4,7 @@ import {  LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Request,Response } from 'express';
-import { ApiBody, ApiExtraModels, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiExtraModels, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Any } from 'typeorm';
 import * as path from 'path';
 import { TokenUserDto } from './dto/token-user.dto';
@@ -14,6 +14,7 @@ import { TokenUserDto } from './dto/token-user.dto';
 
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -23,18 +24,42 @@ export class UsersController {
     schema: {
       type: 'object',
       properties: {
-        name: {
+        username: {
           type: 'string',
-          example: 'John Doe',
+          example: 'Ngoccanh',
         },
-        age: {
-          type: 'number',
-          example: 30,
+        email: {
+          type: 'string',
+          example: "ngoccanh@gmail.com",
+        },
+        emailconfirm: {
+          type: 'string',
+          example: "null",
+        },
+        firstname: {
+          type: 'string',
+          example: "Le",
+        },
+        lastname: {
+          type: 'string',
+          example: "Canh",
+        },
+        password: {
+          type: 'string',
+          example: "DBCFLebwfKWDBVKBWEBVJKbewjevwBJVW",
+        },
+        createat: {
+          type: 'Date',
+          example: "2023-09-19 11:01:42",
+        },
+        block: {
+          type: 'string',
+          example: "null",
         },
       },
     },
   })
-  @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
+  @ApiResponse({ status: 201, description: 'create user successfully.'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
 
   create(@Body() createUserDto: CreateUserDto) {
@@ -56,11 +81,70 @@ export class UsersController {
 
 
   @Get()
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        username: {
+          type: 'string',
+          example: 'Ngoccanh',
+        },
+        email: {
+          type: 'string',
+          example: "ngoccanh@gmail.com",
+        },
+        emailconfirm: {
+          type: 'string',
+          example: "null",
+        },
+        firstname: {
+          type: 'string',
+          example: "Le",
+        },
+        lastname: {
+          type: 'string',
+          example: "Canh",
+        },
+        password: {
+          type: 'string',
+          example: "DBCFLebwfKWDBVKBWEBVJKbewjevwBJVW",
+        },
+        createat: {
+          type: 'Date',
+          example: "2023-09-19 11:01:42",
+        },
+        block: {
+          type: 'string',
+          example: "null",
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 201, description: 'Get user successfully.'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
   findAll() {
     return this.usersService.comparepassword();
   }
 
   @Post("login")
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        username: {
+          type: 'string',
+          example: 'Ngoccanh',
+        },
+        password: {
+          type: 'string',
+          example: "DBCFLebwfKWDBVKBWEBVJKbewjevwBJVW",
+        },
+
+      },
+    },
+  })
+  @ApiResponse({ status: 201, description: 'Login successfully.'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
   login(@Body() loginUserDto:LoginUserDto) {
     return this.usersService.login(loginUserDto);
   }

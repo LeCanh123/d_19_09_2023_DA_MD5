@@ -1,17 +1,19 @@
 import { Allow } from "class-validator";
 
 export class CreateCategoryDto {
+
+
     @Allow()
-    sex:string
+    token:string
     
     @Allow()
-    name:string
+    category:{
+        name:string,
+        sex:string,
+        block:string
 
-    @Allow()
-    block:string
+    }
 
-    // @Allow()
-    // productsId:number
 }
 
 // {

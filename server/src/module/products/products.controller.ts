@@ -2,31 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Version, ParseIntPip
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateAdminCheckLoginDto } from './dto/admin-checklogin.dto';
+
+
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
 
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    console.log("CreateProductDto.username",createProductDto.title);
-    try{
-      let createProductResult= this.productsService.create(createProductDto);
-      console.log("createProductResult",createProductResult);
-      
-      return createProductResult;
-    }
-    catch(err){
-      return {
-        status:false,
-        message:"Tạo Product Thất bại"
-      }
-    }
 
-    // return createProductDto.name
-
-  }
 
   // @Version('2')
   @Get("findall")
@@ -78,4 +63,34 @@ export class ProductsController {
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
   }
+
+  //Admin
+  @Post("admin/checklogin")
+  adminCheckLogin(@Body() createAdminCheckLoginDto: CreateAdminCheckLoginDto) {
+    return this.productsService.adminCheckToken(createAdminCheckLoginDto);
+  }
+
+  @Post()
+  create(@Body() createProductDto: CreateProductDto) {
+    console.log("CreateProductDto.username",createProductDto);
+    try{
+      let createProductResult= this.productsService.create(createProductDto);
+      console.log("createProductResult",createProductResult);
+      
+      return createProductResult;
+    }
+    catch(err){
+      return {
+        status:false,
+        message:"Tạo Product Thất bại"
+      }
+    }
+
+    // return createProductDto.name
+
+  }
+
+
+
+
 }

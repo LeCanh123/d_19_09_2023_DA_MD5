@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export default {
   //category
-  getCategory:(token:any)=> {
+  getCategory:(token:string)=> {
         console.log("newUser",token);
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/getcategory`,{token})
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/category/getall`,{token})
           .then(res => {
             // console.log(res);
             return res
@@ -19,11 +19,11 @@ export default {
           }
             );
       },
-  addCategory:(token:any,category:any)=> {
-        console.log("data",category);
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/addcategory`,{category,token})
+  addCategory:(token:string,category:any)=> {
+
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/category`,{category,token})
           .then(res => {
-            // console.log(res);
+            console.log(res);
             return res
           })
           .catch(error => 
@@ -38,7 +38,7 @@ export default {
       },
   deleteCategory:(token:any,id:any)=> {
     console.log("data",token);
-    return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/deletecategory`,{token,id})
+    return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/category/delete`,{token,id})
       .then(res => {
         // console.log(res);
         return res
@@ -56,7 +56,11 @@ export default {
   //product
   addProduct:(data:any)=> {
         console.log("data",data);
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/addproduct`,data)
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/products`,data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
           .then(res => {
             return res
           })
@@ -103,7 +107,7 @@ export default {
     },
   productGetCategory:(token:any)=> {
     // console.log("newUser",token);
-    return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/productgetcategory`,{token})
+    return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/category/productgetcategory`,{token})
       .then(res => {
         // console.log(res);
         return res
@@ -121,7 +125,7 @@ export default {
   //checklogin
   adminCheckLogin:(token:any)=> {
     // console.log("newUser",token);
-    return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/adminchecklogin`,{token})
+    return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/products/admin/checklogin`,{token})
       .then(res => {
         // console.log(res);
         return res
