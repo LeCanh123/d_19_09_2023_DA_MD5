@@ -41,7 +41,7 @@ export class ProductsService {
     
       const categorys=await this.productRepository.save(data1);
 console.log("categorys",categorys);
-
+ 
 
       let data2:any={
         image:String(createProductDto.image),

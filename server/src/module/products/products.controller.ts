@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Version, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Version, ParseIntPipe, Query, UploadedFile, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { CreateAdminCheckLoginDto } from './dto/admin-checklogin.dto';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express'
+import * as path from 'path';
+import * as fs from 'fs';
+
 
 
 
@@ -71,12 +76,21 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  // @UseInterceptors(FilesInterceptor('image'))
+  // @UseInterceptors(FilesInterceptor('image'))
+  create(@Body() createProductDto: CreateProductDto,@UploadedFiles() image: Array<Express.Multer.File>) {
     console.log("CreateProductDto.username",createProductDto);
+    console.log("image",image);
+    
     try{
       let createProductResult= this.productsService.create(createProductDto);
       console.log("createProductResult",createProductResult);
-      
+      const originalFileName = image[0].originalname;
+      const fileExtension = path.extname(originalFileName); // Trích xuất đuôi tệp tin
+      const uploadedFilePath = image[0].path;
+      const newFilePath = uploadedFilePath + fileExtension; // Đường dẫn mới với đuôi tệp tin đúng
+      fs.renameSync(uploadedFilePath, newFilePath); // Đổi tên tệp tin
+
       return createProductResult;
     }
     catch(err){
