@@ -12,7 +12,7 @@ export class CreateProductDto {
     readonly    img3:string
     readonly    img4:string
     // @IsNotEmpty()
-    categoryId:string
+    readonly categoryId:{id:string}
 }
 
 

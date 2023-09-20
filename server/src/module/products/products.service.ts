@@ -19,9 +19,10 @@ import { ProductImage } from '../productimages/entities/productimage.entity';
 export class ProductsService {
   constructor(
     @Inject('PRODUCT_REPOSITORY')
-    private productRepository: Repository<Product>,
-    @Inject('PRODUCT_REPOSITORY')
-    private productImageRepository: Repository<ProductImage>,
+    private readonly  productRepository: Repository<Product>,
+    
+    @Inject('PRODUCTIMAGE_REPOSITORY')
+    private readonly  productImageRepository: Repository<ProductImage>,
 
   ) {}
 
@@ -34,37 +35,43 @@ export class ProductsService {
         title:createProductDto.title,
         price:createProductDto.price,
         actualprice:createProductDto.actualprice,
-        category:createProductDto.categoryId,
+        category:{id:createProductDto.categoryId},
         block:"null"
       }
 
+      console.log("data1data1",data1);
+      
     
       const categorys=await this.productRepository.save(data1);
-console.log("categorys",categorys);
+      console.log("categorys",categorys);
  
 
       let data2:any={
         image:String(createProductDto.image),
         img1:String(createProductDto.img1),
         img2:String(createProductDto.img2),
-        img3:String(createProductDto.img3),
+        img3:String(createProductDto.img3), 
         img4:String(createProductDto.img4),
-        products:categorys.id
+        products:{id:categorys.id}
       }
    console.log("data2",data2);
    
-      // const images=await this.productImageRepository.save(data2);
+      const images=await this.productImageRepository.save(data2);
+      console.log("bảng image",images);
+      
       return  {
         status: true,
-        messsage: "Add Product success !",
+        message: "Add Product success !",
         // data: users
               }
 
       
     } catch (error) {
+      console.log("errr",error);
+      
       return  {
         status: false,
-        messsage: "Error Add Product !",
+        message: "Error Add Product !",
               }
     }
   }

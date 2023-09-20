@@ -28,15 +28,17 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
 
   const AdminEdit = () => {
     let [productCategory1,setProductCategory1]:any = useState({
-      none: [{ id: -1, name: 'none' }],
+      none: [{ id: -1, name: 'Chưa có danh mục' }],
     });
 
     let   [isLoading,setIsLoading]=useState(false)
     let   [reloadCategory,setReloadCategory]=useState(1);
     let   [listCategory,setListCategory]=useState([{sex:"",id:-1,name:"1"}])
-    const [categoryId, setSelectedId] = useState(-1);                 //lưu id của sản phẩm sau khi đã chọn
+    const [categoryId, setSelectedId] = useState("-1");                 //lưu id của sản phẩm sau khi đã chọn
+    console.log("categoryId",categoryId);
+    
     const handleChangeCategoryId = (event:any) => {                           //chọn id ứng với sản phẩm
-          setSelectedId(Number(event.target.value));
+          setSelectedId(event.target.value);
         };
 
       //useeffect getcategory
@@ -457,7 +459,7 @@ import { MdOutlineProductionQuantityLimits, MdOutlineAddCircleOutline } from "re
             placeholder="Select Category"
             onChange={handleChangeCategoryId}
           >
-            {productCategory1[selectedSex]?productCategory1[selectedSex].map((item: { id: number; name: string }) => (
+            {productCategory1[selectedSex]?productCategory1[selectedSex].map((item: { id: any; name: string }) => (
               <option key={item.id} value={item.id}>{item.name}</option>
             )):
             <option key={"none"} value={"none"}>{"none"}</option>

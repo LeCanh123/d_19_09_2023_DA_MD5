@@ -7,7 +7,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express'
 import * as path from 'path';
 import * as fs from 'fs';
-
+import { uploadFileToStorage } from 'src/meobase';
 
 
 
@@ -78,18 +78,31 @@ export class ProductsController {
   @Post()
   // @UseInterceptors(FilesInterceptor('image'))
   // @UseInterceptors(FilesInterceptor('image'))
-  create(@Body() createProductDto: CreateProductDto,@UploadedFiles() image: Array<Express.Multer.File>) {
+  async create(@Body() createProductDto: CreateProductDto,@UploadedFiles() image: Array<Express.Multer.File>) {
     console.log("CreateProductDto.username",createProductDto);
     console.log("image",image);
     
     try{
-      let createProductResult= this.productsService.create(createProductDto);
-      console.log("createProductResult",createProductResult);
+
       const originalFileName = image[0].originalname;
       const fileExtension = path.extname(originalFileName); // Trích xuất đuôi tệp tin
       const uploadedFilePath = image[0].path;
       const newFilePath = uploadedFilePath + fileExtension; // Đường dẫn mới với đuôi tệp tin đúng
+      console.log("newFilePath",newFilePath);
+      
       fs.renameSync(uploadedFilePath, newFilePath); // Đổi tên tệp tin
+
+      //upload
+      let avatarProcess;
+      if(image){
+        avatarProcess = await uploadFileToStorage(image[0], "products", fs.readFileSync(newFilePath));
+       }
+      console.log("đường dẫn firebase",avatarProcess);
+      //xoá sau khi upload
+      fs.unlinkSync(newFilePath);
+
+      let createProductResult=await this.productsService.create({...createProductDto,image:avatarProcess});
+      console.log("createProductResult",createProductResult);
 
       return createProductResult;
     }
