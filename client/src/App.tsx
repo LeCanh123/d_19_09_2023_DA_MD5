@@ -24,10 +24,10 @@ function App() {
       if(res.status == 200) {
         dispatch(userAction.setData(res.data.data))
       }else {
-        localStorage.removeItem("loginToken1")
+        // localStorage.removeItem("loginToken1")
       }
     }).catch(err => {
-      localStorage.removeItem("loginToken1")
+      // localStorage.removeItem("loginToken1")
     })
   }, [])
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
     getMenproduct:async (data:any)=> {
-        return axios.get(import.meta.env.VITE_SERVER_HOST+`apis/v1/userproduct/getmenproduct/`)
+        return axios.get(import.meta.env.VITE_SERVER_HOST+`api/v1/products/findall/`)
           .then(res => {
             // return res
             return {data:res.data.data,

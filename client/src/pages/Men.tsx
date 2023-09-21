@@ -56,20 +56,24 @@ export const Men = () => {
   });
 
 //phân trang
-  const itemsPerPage = 8;
-  const currentPage = parseInt(searchParams.get('page')) || 1;
-  let getPaginatedProducts:any = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-  return men.slice(startIndex, endIndex);
-  }
+  // const itemsPerPage = 8;
+  // const currentPage = parseInt(searchParams.get('page')) || 1;
+  // let getPaginatedProducts:any = () => {
+  //   const startIndex = (currentPage - 1) * itemsPerPage;
+  //   const endIndex = startIndex + itemsPerPage;
+  // return men.slice(startIndex, endIndex);
+  // }
 
   
 
 
 
+// console.log("getPaginatedProducts",getPaginatedProducts);
 
-// let getPaginatedProducts =men
+let getPaginatedProducts =men
+
+console.log("getPaginatedProducts",getPaginatedProducts);
+
   return (
     <div>
       <Navbar />
@@ -128,7 +132,7 @@ export const Men = () => {
             })} */}
 
                   {
-            getPaginatedProducts().map((el: any) => {
+            getPaginatedProducts.map((el: any) => {
               return <Card data={el} canh={"002"}/>;
             })
             

@@ -20,9 +20,12 @@ export class ProductsController {
 
   // @Version('2')
   @Get("findall")
-  findAll() {
+  async findAll() {
     try{
-          return this.productsService.findAll();
+      let findAllResult=await this.productsService.findAll();
+      console.log("findAllResult",findAllResult);
+      
+          return findAllResult
     }
     catch(err){
       return {

@@ -6,12 +6,13 @@ import { UpdateProductDto } from './dto/update-product.dto';
 
 //orm
 import {  Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { QueryFailedError } from 'typeorm';
 import { CreateAdminCheckLoginDto } from './dto/admin-checklogin.dto';
 import jwt from 'src/services/jwt';
 import { ProductImage } from '../productimages/entities/productimage.entity';
+import { Category } from '../category/entities/category.entity';
 
 
 @Injectable()
@@ -24,6 +25,8 @@ export class ProductsService {
     @Inject('PRODUCTIMAGE_REPOSITORY')
     private readonly  productImageRepository: Repository<ProductImage>,
 
+    @Inject('CATEGORY_REPOSITORY')
+    private readonly categoryRepository:Repository<Category>,
   ) {}
 
   
@@ -103,12 +106,16 @@ export class ProductsService {
 
   async findAll() {
       try{
-        let findAllResult= await this.productRepository.find();
+     
+        const categorys = await this.categoryRepository.find({where:{sex:"men",block:"null"}});
+        const categoryIds = categorys.map(category => category.id);
+
+        const products = await this.productRepository.find({ where: {block:"null", category: { id: In(categoryIds),block:"null" } },relations: ['productimage'] });
        
         return  {
           status:true,
           message:"Lấy Danh Sách Product FindAll Thành công",
-          data:findAllResult
+          data:products
         }
         
 

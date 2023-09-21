@@ -32,3 +32,4 @@ export class AuthencationController {
     return this.authencationService.remove(+id);
   }
 }
+ 
