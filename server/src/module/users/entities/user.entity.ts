@@ -1,7 +1,7 @@
 import { Bag } from "src/module/bags/entities/bag.entity";
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import * as bcrypt from "bcrypt"
-
+import { GateWay1 } from "src/module/gateway/entities/gateway.entity";
 @Entity()
 export class User {
 
@@ -56,4 +56,9 @@ export class User {
     // 1 user có nhiều túi
     @OneToMany(() => Bag, (bag) => bag.user)
     bags!: Bag[]
+
+    //discord
+    // 1 user có nhiều comment
+    @OneToMany(() => GateWay1, (gate) => gate.user)
+    gateway!: GateWay1[]
 }
