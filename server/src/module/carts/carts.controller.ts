@@ -2,35 +2,38 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { RemoveCartDto } from './dto/remove-cart.dto';
+import { GetCartDto } from './dto/get-cart.dto';
+import { ChageQuantityCartDto } from './dto/changequantity-cart.dto';
 
 @Controller('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
-  @Post()
+  @Post("add")
   create(@Body() createCartDto: CreateCartDto) {
-    console.log("vào @Post('addtocart')");
     
-    return this.cartsService.create(createCartDto);
+    
+    return this.cartsService.add(createCartDto);
   }
 
-  @Get()
-  findAll() {
-    return this.cartsService.findAll();
+  @Post("remove")
+  async remove(@Body() removeCartDto: RemoveCartDto) {
+    let removeResult= await this.cartsService.remove(removeCartDto);
+    console.log("removeResult",removeResult);
+    
+     return removeResult
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartsService.findOne(+id);
-  }
- 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartsService.update(+id, updateCartDto);
+  @Post("get")
+  getcart(@Body() getCartDto: GetCartDto) {
+    return this.cartsService.get(getCartDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartsService.remove(+id);
+  @Post("changequantity")
+  changequantity(@Body() chageQuantityCartDto: ChageQuantityCartDto) {
+    return this.cartsService.changeQuantity(chageQuantityCartDto);
   }
+
+
 }

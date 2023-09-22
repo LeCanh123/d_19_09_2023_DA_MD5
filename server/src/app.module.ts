@@ -9,6 +9,7 @@ import { GatewayModule } from './gateway/gateway.module';
 import { DiscordModule } from './module/discord/discord.module';
 import { GateWayModule1 } from './module/gateway/getway.module';
 import { CartsModule } from './module/carts/carts.module';
+import { PurchaseModule } from './module/purchase/purchase.module';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { CartsModule } from './module/carts/carts.module';
   // GatewayModule,
   GateWayModule1,
   CartsModule,
+  PurchaseModule,
   
   // DiscordModule
   ],

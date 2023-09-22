@@ -4,7 +4,7 @@ export default {
     createOrder:async (token:any,data:any)=> {
         console.log(data);
         
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/purchase/addorder`,{token,data})
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/purchase/addorder`,{token,data})
           .then(res => {
             return res
           })

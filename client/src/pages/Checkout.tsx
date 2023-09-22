@@ -38,7 +38,7 @@ function Checkout() {
   const [address, setAddress] = useState(initialState);
   console.log("addressaddress",address);
   
-  const [storeADD, setStoreADD] = useState("");
+  const [storeADD, setStoreADD]:any = useState("");
 
   const handleChange = (e:any) => {
     const name = e.target.name;

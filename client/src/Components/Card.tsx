@@ -70,7 +70,7 @@ import { getcart1 } from "../redux/cartReducer/reducer";
             isClosable: true,
             position: "top",
           });
-        // getcart1(localStorage.getItem("loginToken1"),dispatch);
+        getcart1(localStorage.getItem("loginToken1"),dispatch);
         }else{
           toast({
             title: "Err",
