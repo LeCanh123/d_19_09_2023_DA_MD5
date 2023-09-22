@@ -9,6 +9,8 @@ export class CartsController {
 
   @Post()
   create(@Body() createCartDto: CreateCartDto) {
+    console.log("vào @Post('addtocart')");
+    
     return this.cartsService.create(createCartDto);
   }
 
@@ -21,7 +23,7 @@ export class CartsController {
   findOne(@Param('id') id: string) {
     return this.cartsService.findOne(+id);
   }
-
+ 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
     return this.cartsService.update(+id, updateCartDto);

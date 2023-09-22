@@ -8,12 +8,14 @@ import { CategoryModule } from './module/category/category.module';
 import { GatewayModule } from './gateway/gateway.module';
 import { DiscordModule } from './module/discord/discord.module';
 import { GateWayModule1 } from './module/gateway/getway.module';
+import { CartsModule } from './module/carts/carts.module';
 
 
 @Module({
   imports: [ConfigModule.forRoot(),ProductsModule,UsersModule,CategoryModule,
   // GatewayModule,
   GateWayModule1,
+  CartsModule,
   
   // DiscordModule
   ],

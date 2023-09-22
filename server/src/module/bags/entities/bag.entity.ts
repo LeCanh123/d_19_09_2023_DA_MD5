@@ -6,7 +6,7 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "ty
 @Entity()
 export class Bag {
     @PrimaryGeneratedColumn('uuid')
-    id!: null
+    id!: string
 
     // @Column()
     // userId!: string

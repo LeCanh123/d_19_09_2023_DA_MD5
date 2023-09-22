@@ -1,16 +1,16 @@
 import { DataSource } from 'typeorm';
-import { User } from './entities/user.entity'; 
+import { Bag } from './entities/bag.entity'; 
 
-export const userProviders = [
+export const bagsProviders = [
   {
-    provide: 'USER_REPOSITORY',
+    provide: 'BAG_REPOSITORY',
     useFactory: (dataSource: DataSource) => {
       try {
-        return dataSource.getRepository(User);
+        return dataSource.getRepository(Bag);
       } catch (err) {
         console.log("Chưa kết nối database");
       }
-    },
+    }, 
     inject: ['DATA_SOURCE'],
   },
 ];

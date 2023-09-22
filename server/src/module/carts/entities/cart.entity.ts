@@ -20,7 +20,7 @@ export class Cart {
     
     //nhiều cart 1 túi
     @ManyToOne(() => Bag, (bag) => bag.carts)
-    bag!: Bag
+    bag: Bag
 
     //nhiều cart 1 product
     @ManyToOne(() => Product, (product) => product.carts)

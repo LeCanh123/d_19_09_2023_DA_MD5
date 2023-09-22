@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
     addToCart:async (token:any,id:number)=> {
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/userproduct/addtocart/`,{token,id})
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/carts/`,{token:String(token),id:String(id)})
           .then(res => {
             return res
           })

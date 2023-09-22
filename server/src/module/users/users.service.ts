@@ -15,7 +15,7 @@ import { TokenUserDto } from './dto/token-user.dto';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('PRODUCT_REPOSITORY')
+    @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
   ) {}
   

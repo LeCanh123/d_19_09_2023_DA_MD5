@@ -59,29 +59,29 @@ import { getcart1 } from "../redux/cartReducer/reducer";
 
 
 
-  // const handleAddToCart= async(id:any) => {
-  //       let addToCartResult =await userCart.addToCart(localStorage.getItem("loginToken1"),id)
-  //       if(addToCartResult.data?.status){
-  //         toast({
-  //           title: "Success",
-  //           description: addToCartResult.data.message,
-  //           status: "success",
-  //           duration: 2000,
-  //           isClosable: true,
-  //           position: "top",
-  //         });
-  //       getcart1(localStorage.getItem("loginToken1"),dispatch);
-  //       }else{
-  //         toast({
-  //           title: "Err",
-  //           description: addToCartResult.data.message,
-  //           status: "error",
-  //           duration: 2000,
-  //           isClosable: true,
-  //           position: "top",
-  //         });
-  //       }
-  // }
+  const handleAddToCart= async(id:any) => {
+        let addToCartResult =await userCart.addToCart(localStorage.getItem("loginToken1"),id)
+        if(addToCartResult.data?.status){
+          toast({
+            title: "Success",
+            description: addToCartResult.data.message,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+            position: "top",
+          });
+        // getcart1(localStorage.getItem("loginToken1"),dispatch);
+        }else{
+          toast({
+            title: "Err",
+            description: addToCartResult.data.message,
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+            position: "top",
+          });
+        }
+  }
 
 
 
@@ -116,7 +116,7 @@ import { getcart1 } from "../redux/cartReducer/reducer";
 
 
       <Button className="add-to-cart-btn" 
-      // onClick={()=>handleAddToCart(props.data?.id)}
+      onClick={()=>handleAddToCart(props.data?.id)}
       >
         Add To Cart
       </Button>
