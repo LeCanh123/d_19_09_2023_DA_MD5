@@ -76,7 +76,7 @@ export default {
       },
   getProduct:(token:any,data:any)=> {
       console.log("data",data);
-      return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/getproduct`,{token,data})
+      return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/products/admin/getproduct`,{token,data})
         .then(res => {
           return res
         })
@@ -91,7 +91,7 @@ export default {
           );
       },
   deleteteProduct:(token:any,id:any)=> {
-    return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/adminproduct/deleteproduct`,{token,id})
+    return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/products/admin/deleteproduct`,{token,id})
       .then(res => {
         return res
       })

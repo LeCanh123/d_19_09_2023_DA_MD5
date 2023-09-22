@@ -8,6 +8,8 @@ import { Express } from 'express'
 import * as path from 'path';
 import * as fs from 'fs';
 import { uploadFileToStorage } from 'src/meobase';
+import { CreateAdminGetProductDto } from './dto/admin-getproduct.dto';
+import { CreateAdminDeleteProductDto } from './dto/admin-deleteproduct.dto';
 
 
 
@@ -18,7 +20,7 @@ export class ProductsController {
 
 
 
-  // @Version('2')
+//user
   @Get("findall")
   async findAll() {
     try{
@@ -56,21 +58,12 @@ export class ProductsController {
    
   }
 
-  @Version('1')
-  @Get(':id')
-  findOne(@Param('id' ,ParseIntPipe) id: number) {
-    return this.productsService.findOne(+id);
-  }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
-  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
-  }
+
+
+
+
 
   //Admin
   @Post("admin/checklogin")
@@ -120,7 +113,20 @@ export class ProductsController {
 
   }
 
+  @Post("admin/getproduct")
+  async adminGetProduct(@Body() createAdminGetProductDto:CreateAdminGetProductDto){
+    let adminGetProductResult=await this.productsService.adminGetProduct(createAdminGetProductDto);
+    return adminGetProductResult
+  }
 
+
+  @Post("admin/deleteproduct")
+  async adminDeleteProduct(@Body() CreateAdminDeleteProductDto:CreateAdminDeleteProductDto){
+    let adminDeleteProductResult=await this.productsService.adminDeleteProduct(CreateAdminDeleteProductDto);
+    console.log("adminDeleteProductResult",CreateAdminDeleteProductDto);
+    
+    return adminDeleteProductResult
+  }
 
 
 }

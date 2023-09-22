@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsString } from "class-validator"
 
-export class CreateAdminCheckLoginDto {
+export class CreateAdminDeleteProductDto {
         token:string
-        data:any
+        id:any
 }
 
 

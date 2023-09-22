@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
+import { GetPurchaseDto } from './dto/get-purchase.dto';
 
 @Controller('purchase')
 export class PurchaseController {
@@ -10,6 +11,11 @@ export class PurchaseController {
   @Post('addorder')
   create(@Body() createPurchaseDto: CreatePurchaseDto) {
     return this.purchaseService.addOrder(createPurchaseDto);
+  }
+
+  @Post('gethistory')
+  getHistory(@Body() getPurchaseDto:GetPurchaseDto) {
+    return this.purchaseService.getHistory(getPurchaseDto);
   }
 
   @Get()

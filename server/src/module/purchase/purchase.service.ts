@@ -7,6 +7,7 @@ import jwt from 'src/services/jwt';
 import { Cart } from '../carts/entities/cart.entity';
 import { User } from 'discord.js';
 import { Bag } from '../bags/entities/bag.entity';
+import { GetPurchaseDto } from './dto/get-purchase.dto';
 
 @Injectable()
 export class PurchaseService {
@@ -73,6 +74,48 @@ async addOrder(createPurchaseDto: CreatePurchaseDto){
     return {
       status: false,
       message: "add Order thất bại !",
+      // data: null
+          }
+  }
+}
+
+async getHistory(getPurchaseDto:GetPurchaseDto){
+  try{
+    let unpack:any= jwt.verifyToken(getPurchaseDto.token);
+    if(unpack){
+ 
+      //tìm thông tin user
+      // let findUserChangeInfo=await this.userRepository.find({where:{username:unpack.username}});
+
+      //tìm giỏ hàng
+
+      let findUserBag:any=await this.bagRepository.find({where:{user:{id:unpack.id},block:"true"},relations: ['carts','carts.products','carts.products.productimage']});
+      //nếu không thấy giỏ hàng
+      if(findUserBag.length==0){
+        //trả về lỗi
+        return {
+            status: false,
+            message: "Chưa có đơn hàng",
+          }
+      //nếu thấy giỏ hàng
+      }else{
+        return {
+            status: true,
+            data:findUserBag,
+            message: "Lấy danh sách đơn hàng thành công",
+          }
+
+      }
+    }
+    return {
+      status: false,
+      message: "Chưa đăng nhập",
+    }
+  }
+  catch(err){
+    return {
+      status: false,
+      message: "Lấy đơn hàng thất bại !",
       // data: null
           }
   }

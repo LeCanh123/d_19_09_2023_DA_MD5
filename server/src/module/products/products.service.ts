@@ -9,10 +9,12 @@ import {  Inject } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { QueryFailedError } from 'typeorm';
-import { CreateAdminCheckLoginDto } from './dto/admin-checklogin.dto';
+import { CreateAdminCheckLoginDto,  } from './dto/admin-checklogin.dto';
+import { CreateAdminGetProductDto } from './dto/admin-getproduct.dto';
 import jwt from 'src/services/jwt';
 import { ProductImage } from '../productimages/entities/productimage.entity';
 import { Category } from '../category/entities/category.entity';
+import { CreateAdminDeleteProductDto } from './dto/admin-deleteproduct.dto';
 
 
 @Injectable()
@@ -132,17 +134,7 @@ export class ProductsService {
     
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
 
   //admin
   adminCheckToken(createAdminCheckLoginDto: CreateAdminCheckLoginDto){
@@ -177,6 +169,67 @@ export class ProductsService {
     }
   }
 
+  async adminGetProduct(createAdminGetProductDto:CreateAdminGetProductDto){
+    try {
+
+      const categorys=await this.categoryRepository.find({where:{sex:createAdminGetProductDto?.data?.type,block:"null"}});
+      const categoryIds = categorys.map(category => category.id);
+
+      const products = await this.productRepository.find({ where: { category: { id: In(categoryIds) },block:"null" },relations: ['productimage'] });
+      console.log(products);
+     
+
+      return {
+        status: true,
+        message: "Get Product success !",
+        data: products
+    }
+
+      
+    } catch (error) {
+      console.log("errrrr",error);
+      
+      return { 
+        status: false,
+        message: "Error Get Product !",
+    }
+    }
+  }
+
+  async adminDeleteProduct(createAdminDeleteProductDto:CreateAdminDeleteProductDto){
+      //giải mã token
+      try{
+        console.log("createAdminDeleteProductDto.id",createAdminDeleteProductDto);
+        
+        let unpack:any= jwt.verifyToken(createAdminDeleteProductDto.token);
+        if(unpack){
+
+          let deleteProductResult=await this.productRepository
+                                      .createQueryBuilder()
+                                      .update(Product)
+                                      .set({ block: "true"})
+                                      .where("id = :id", { id: createAdminDeleteProductDto.id })
+                                      .execute()
+          return {
+            status: true,
+            message: "Xoá sản phẩm thành công",
+          }
+
+        }
+        return {
+          status: false,
+          message: "Chưa đăng nhập",
+        }
+      }
+      catch(err){
+        return {
+          status: false,
+          message: "Delete product thất bại !",
+          // data: null
+              }
+      }
   
+}
+
 }
 

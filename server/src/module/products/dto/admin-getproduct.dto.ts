@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from "class-validator"
 
-export class CreateAdminCheckLoginDto {
+export class CreateAdminGetProductDto {
         token:string
         data:any
 }

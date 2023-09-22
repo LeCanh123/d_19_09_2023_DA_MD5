@@ -17,7 +17,7 @@ export default {
 
       },
     getHistoryOrder:async (token:any)=> {
-      return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/purchase/gethistory`,{token})
+      return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/purchase/gethistory`,{token})
         .then(res => {
           return res
         })
