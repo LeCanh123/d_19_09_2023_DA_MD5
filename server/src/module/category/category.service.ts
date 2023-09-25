@@ -12,6 +12,47 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
+
+
+  async userGetCategory(){
+    try {
+     
+      const categorys = await this.categoryRepository.find({where:{block:"null"}});
+      //nếu không có category
+      if(categorys.length==0){
+        return {
+          status:false,
+          message:"Không có category",
+          data:{}
+        }
+      //nếu có category
+      }else{
+        const result:any = {};
+        for (const item of categorys) {
+          const { sex, id, name } = item;
+          if (!(sex in result)) {
+            result[sex] = [];
+          }
+          result[sex].push({ id, name });
+        }
+        return {
+          status:true,
+          message:"getcategory thành công",
+          data:result
+        }
+      }
+    } catch (err:any) {
+      return {
+        status: false,
+        messsage: "Error productGetcategory !",
+        data:{},
+    }
+    }
+
+  }
+
+
+  //admin
  async create(createCategoryDto: CreateCategoryDto) {
     try {
       let categoryData={

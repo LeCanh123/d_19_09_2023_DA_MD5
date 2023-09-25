@@ -7,6 +7,27 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+
+
+
+
+//user
+@Post("usergetcategory")
+async userGetCategory(@Body() token) {
+  console.log("vào get all",token);
+  
+  let getCategoryResult=await this.categoryService.userGetCategory();
+  return getCategoryResult
+}
+
+
+
+
+
+
+
+
+  //admin
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     console.log("vào Controller('category')");

@@ -58,6 +58,11 @@ export class ProductsController {
    
   }
 
+@Post("getproductbycategory")
+getProductByCategory(@Body() data){
+  return this.productsService.getProductByCategory(data)
+
+}
 
 
 

@@ -22,7 +22,7 @@ export default {
         //         }
     },
     getCategory:async (token:any)=> {
-      return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/userproduct/getcategory`,{token})
+      return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/category/usergetcategory`,{token})
         .then(res => {
           return res
         })
@@ -36,7 +36,7 @@ export default {
           );
     },
     getProductByCategory:async (token:any,category:any)=> {
-      return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/userproduct/getproductbycategory`,{token,category})
+      return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/products/getproductbycategory`,{token,listCategory:category})
         .then(res => {
           return res
         })

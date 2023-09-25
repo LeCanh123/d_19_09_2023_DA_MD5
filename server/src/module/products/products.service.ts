@@ -134,6 +134,36 @@ export class ProductsService {
     
   }
 
+  async getProductByCategory(data){
+    try {
+      const categorys = await this.categoryRepository.createQueryBuilder('category')
+      .where('category.sex = :sex', { sex: 'men' })
+      .where('category.block = :block', { block: 'null' })
+      .where('category.name IN (:...names)', {names: data.listCategory })
+      // .leftJoinAndSelect('category.products', 'product')
+      .getMany();
+
+
+
+      const categoryIds = categorys.map(category => category.id);
+      
+      const products = await this.productRepository.find({ where: { category: { id: In(categoryIds) },block:"null" },relations: ['productimage'] });
+
+      return {
+        status: true,
+        message: "Get Product by category success !",
+        data: products
+              }
+
+      
+    } catch (error) {
+      return {
+        status: false,
+        message: "Error getting getProductByCategory !",
+    }
+    }
+  }
+
 
 
   //admin
