@@ -104,7 +104,7 @@ export default function UserInfo() {
       <>
       <Navbar></Navbar>
       {/* https://bootdey.com/snippets/view/account-setting-or-edit-profile#css */}
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"></link>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossOrigin="anonymous"></link>
       <div className="container mt-5">
   <div className="row gutters">
     <div className="col-xl-3 col-lg-3 col-md-11 col-sm-12 col-12">

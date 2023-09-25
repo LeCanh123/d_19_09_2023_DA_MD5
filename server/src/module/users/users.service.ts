@@ -11,6 +11,7 @@ import jwt from 'src/services/jwt';
 import MailService from 'src/services/mail';
 import genEmailString from 'src/services/template/emailConfirm';
 import { TokenUserDto } from './dto/token-user.dto';
+import { CreateChangeInfoUserDto } from './dto/create-user.dto copy';
 
 @Injectable()
 export class UsersService {
@@ -185,7 +186,40 @@ export class UsersService {
   }
   }
 
+async getChangeInfo(createChangeInfoUserDto:CreateChangeInfoUserDto){
+  try{
 
+    let unpack:any= jwt.verifyToken(createChangeInfoUserDto.token);
+    console.log("unpack,unpack",unpack);
+    
+    //nếu giải nén thành công
+    if(unpack){
+      //tìm thông tin user
+
+      let findUserChangeInfo=await this.userRepository.find({where:{username:unpack.username}});
+      return {
+        status:true,
+        message:"",
+        data:findUserChangeInfo[0]
+      }
+    }
+    //nếu giải nén thất bại
+    return {
+      status:false,
+      message:"Chưa đăng nhập",
+      data:unpack
+    }
+
+    // console.log("ResultUser,",ResultUser);
+  }
+  catch(err){
+    console.log("lỗi confirmTokenLogin use.middleware");
+    return {
+      status:false,
+      message:"Lỗi hệ thống",
+    }
+  }
+}
 
 
 
@@ -260,6 +294,112 @@ async confirmEmail(token:string) {
 
 }
 
+async reConfirmEmail(tokenUserDto:TokenUserDto){
+  try{
+
+    let unpack:any= jwt.verifyToken(tokenUserDto.token);
+    console.log(unpack);
+    //nếu giải nén thành công
+    if(unpack){
+    //gửi email confirm
+    let createConfirmEmailToken= jwt.createToken({username:unpack.username,time:new Date()}, 30000);
+          console.log(createConfirmEmailToken);
+          
+          let resultGenEmailString=genEmailString({
+            productName:"Clothes Shop",              //tên shop
+            productUrl:"canh123.lambogini",
+            receiveName:unpack.email,               //email người nhận
+            confirmLink:`http://127.0.0.1:3000/api/v1/users/confirmemail/${createConfirmEmailToken}`
+          })
+
+          await MailService.sendMail(
+                {
+                    to: unpack.email,
+                    subject: "Xác Thực Tài Khoản",
+                    html: resultGenEmailString
+                }
+          )
+          return{status:true,
+          message:"Đã gửi xác nhận, Kiểm tra email"
+          }
+
+
+    }else{
+      return{
+        status:false,
+        message:"Chưa đăng nhập!"
+      }
+    }
+
+
+  }
+  catch(err){
+    return{
+      status:false,
+      message:"Lỗi hệ thống"
+    }
+  }
+}
+
+async changeInfo(updateUserDto:UpdateUserDto){
+  try{
+
+    let unpack:any= jwt.verifyToken(updateUserDto.token);
+    console.log(unpack);
+    
+    //nếu giải nén thành công
+    if(unpack){
+      let hashpassword="s";
+      // const salt = await bcrypt.genSalt(saltRounds);
+      hashpassword = await bcrypt.hash(updateUserDto.data.password, 10);
+      //update lại thông tin user
+
+      if(updateUserDto.data.firstname&&updateUserDto.data.lastname&&updateUserDto.data.password){
+        let updateConfirm=await this.userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({password:hashpassword})
+        .where("id = :id", { id: unpack.id })
+        .execute()
+      }
+      if(updateUserDto.data.firstname){
+        let updateConfirm=await this.userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({firstname:updateUserDto.data.firstname})
+        .where("id = :id", { id: unpack.id })
+        .execute()
+      }
+      if(updateUserDto.data.lastname){
+        let updateConfirm=await this.userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({lastname:updateUserDto.data.lastname})
+        .where("id = :id", { id: unpack.id })
+        .execute()
+      }
+
+
+      return {
+        status:true,
+        message:"Update thành công",
+      }
+    }
+    //nếu giải nén thất bại
+    return {
+      status:false,
+      message:"Chưa đăng nhập",
+    }
+
+    // console.log("ResultUser,",ResultUser);
+  }
+  catch(err){
+    return {
+      status:false,
+      message:"Lỗi hệ thống",
+    }
+  }
+}
 
 
   findAll() {
@@ -321,8 +461,5 @@ async confirmEmail(token:string) {
   
     return removedUser;
   }
-}
-function generateUniqueId() {
-  throw new Error('Function not implemented.');
 }
 

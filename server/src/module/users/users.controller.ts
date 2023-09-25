@@ -8,6 +8,7 @@ import { ApiBody, ApiExtraModels, ApiProperty, ApiResponse, ApiTags } from '@nes
 import { Any } from 'typeorm';
 import * as path from 'path';
 import { TokenUserDto } from './dto/token-user.dto';
+import { CreateChangeInfoUserDto } from './dto/create-user.dto copy';
 
 
 
@@ -156,9 +157,19 @@ export class UsersController {
 
 
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Post('usergetchangeinfo')
+  userGetChangeInfo(@Body() createChangeInfoUserDto: CreateChangeInfoUserDto) {
+    return this.usersService.getChangeInfo(createChangeInfoUserDto)
+  }
+
+  @Post('userchangeinfo')
+  userChangeInfo(@Body() updateUserDto:UpdateUserDto) {
+    return this.usersService.changeInfo(updateUserDto)
+  }
+
+  @Post('userreconfirm')
+  findOne(@Body() tokenUserDto:TokenUserDto) {
+    return this.usersService.reConfirmEmail(tokenUserDto)
   }
 
   @Patch(':id')

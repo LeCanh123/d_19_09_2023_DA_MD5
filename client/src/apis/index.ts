@@ -74,7 +74,7 @@ export default {
     getUserInfoRequest:async (token: any)=> {
         // console.log("newUser",newUser);
         console.log("import.meta.env.REACT_APP_SERVER_HOST",import.meta.env.VITE_SERVER_HOST);       
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/usergetchangeinfo`,{token})
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/users/usergetchangeinfo`,{token})
           .then(res => {
             console.log(res);
            return res
@@ -100,7 +100,7 @@ export default {
             );
       },
     updateUserInfoRequest:async (token: any,data:any)=> {
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/userchangeinfo`,{token,data})
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/users/userchangeinfo`,{token,data})
           .then(res => {
             console.log(res);
            return res
@@ -126,7 +126,7 @@ export default {
             );
       },
     updateConfirmRequest:async (token: any)=> {
-        return axios.post(import.meta.env.VITE_SERVER_HOST+`apis/v1/userchangeconfirm`,{token})
+        return axios.post(import.meta.env.VITE_SERVER_HOST+`api/v1/users/userreconfirm`,{token})
           .then(res => {
             console.log(res);
            return res
